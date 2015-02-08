@@ -1,0 +1,21 @@
+<h2>
+  Tasks
+  <%= link_to new_task_path, class: 'btn btn-default pull-right' do %>
+    New Task <i class="fa fa-plus"></i>
+  <% end %>
+</h2>
+
+<% @tasks.each do |task| %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <%= link_to task.name, task, class: 'panel-link-header' %>
+      <%= link_to task, method: :delete, class: 'panel-actions pull-right' do %><i class="fa fa-remove"></i><% end %>
+      <%= link_to [:edit, task], class: 'panel-actions pull-right' do %><i class="fa fa-pencil"></i><% end %>
+    </div>
+    <div class="panel-body">
+      <p><strong>Goal: <%=task.goal%></strong></p>
+      <p><strong>Due Date: <%=common_date(task.due_date)%></strong></p>
+      <p><%=task.description%></p>
+    </div>
+  </div>
+<% end %>

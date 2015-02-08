@@ -1,0 +1,11 @@
+<%= bootstrap_form_for(@task) do |f| %>
+  <%= f.alert_message 'Please fix the errors below.' %>
+  <%= f.text_field :name %>
+  <%= f.text_field :goal %>
+  <%= f.text_area :description %>
+  <%= f.date_select :due_date, {}, class: 'date-select' %>
+  <%= f.number_field :priority, value: 0 %>
+  <%= f.check_box :completed %>
+  <%= link_to 'Back', tasks_path, class: 'btn btn-default' %>
+  <%= f.submit %>
+<% end %>

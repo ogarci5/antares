@@ -1,2 +1,24 @@
 <h2 class="text-center"><%=welcome_text%>, Oliver</h2>
-
+<h3><%= link_to 'Your Goals', tasks_path, class: 'no-style' %></h3>
+<div class="goals-container">
+  <% @tasks.each_slice(3) do |slice| %>
+    <div class="row">
+      <% slice.each do |task| %>
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <%=task.name%>
+              <span class="pull-right">
+                <%=common_date(task.due_date)%>
+              </span>
+            </div>
+            <div class="panel-body">
+              <%= truncate(task.description, length: 250) %>
+              <%= link_to '&hellip;Read more'.html_safe, tasks_path %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,62 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_self
+ */
+// Import directives manually :(
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome";
+@import "**/*";
+
+.date-select {
+  width: 33%;
+  display: inline-block;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+a.no-style {
+  color: $text-color;
+  text-decoration: none;
+  &:hover {
+    color: $text-color;
+    text-decoration: none;
+  }
+}
+
+.panel-heading {
+  .panel-link-header {
+    color: $text-color;
+    &:hover {
+      color: $text-color;
+      text-decoration: none;
+    }
+  }
+  .panel-actions {
+    margin-left: 10px;
+    font-size: 16px;
+    line-height: 16px;
+    color: #000;
+    filter: alpha(opacity=30);
+    opacity: .3;
+    &:hover {
+      color: #000;
+      text-decoration: none;
+      filter: alpha(opacity=50);
+      opacity: .5;
+    }
+  }
+}
