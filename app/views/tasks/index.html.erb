@@ -15,7 +15,7 @@
     <div class="panel-body">
       <p><strong>Goal: <%=task.goal%></strong></p>
       <p><strong>Due Date: <%=common_date(task.due_date)%></strong></p>
-      <p><%=task.description%></p>
+      <p><%=simple_format task.description%></p>
     </div>
   </div>
 <% end %>

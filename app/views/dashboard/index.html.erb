@@ -1,4 +1,4 @@
-<h2 class="text-center"><%=welcome_text%>, Oliver</h2>
+<h2 class="text-center dashboard-header"><%=welcome_text%>, Oliver</h2>
 <h3><%= link_to 'Your Goals', tasks_path, class: 'no-style' %></h3>
 <div class="goals-container">
   <% @tasks.each_slice(3) do |slice| %>
