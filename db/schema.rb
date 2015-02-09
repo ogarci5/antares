@@ -14,42 +14,43 @@
 ActiveRecord::Schema.define(version: 20150209064200) do
 
   create_table "progresses", force: :cascade do |t|
-    t.integer  "task_id"
+    t.integer  "task_id",     limit: 4
     t.date     "date"
-    t.text     "description"
-    t.string   "value"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.text     "description", limit: 65535
+    t.string   "value",       limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
-  add_index "progresses", ["task_id"], name: "index_progresses_on_task_id"
+  add_index "progresses", ["task_id"], name: "index_progresses_on_task_id", using: :btree
 
   create_table "tasks", force: :cascade do |t|
-    t.string   "name"
-    t.string   "goal"
-    t.text     "description"
+    t.string   "name",              limit: 255
+    t.string   "goal",              limit: 255
+    t.text     "description",       limit: 65535
     t.date     "due_date"
-    t.boolean  "completed"
-    t.string   "type"
-    t.integer  "priority"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.boolean  "recurring"
-    t.string   "period"
-    t.boolean  "remind_me"
+    t.boolean  "completed",         limit: 1
+    t.string   "type",              limit: 255
+    t.integer  "priority",          limit: 4
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "recurring",         limit: 1
+    t.string   "period",            limit: 255
+    t.boolean  "remind_me",         limit: 1
     t.datetime "last_completed_at"
-    t.integer  "task_id"
+    t.integer  "task_id",           limit: 4
   end
 
-  add_index "tasks", ["task_id"], name: "index_tasks_on_task_id"
+  add_index "tasks", ["task_id"], name: "index_tasks_on_task_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "phone_number"
-    t.string   "role"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.string   "first_name",   limit: 255
+    t.string   "last_name",    limit: 255
+    t.string   "phone_number", limit: 255
+    t.string   "role",         limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
+  add_foreign_key "progresses", "tasks"
 end
