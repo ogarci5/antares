@@ -41,10 +41,7 @@ class TasksController < ApplicationController
 
   def complete
     @task.complete
-
-    if @task.save
-      redirect_to tasks_path
-    end
+    redirect_to tasks_path
   end
 
   private

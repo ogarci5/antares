@@ -21,10 +21,13 @@ class Task < ActiveRecord::Base
   def complete
     self.completed = true
     self.completed_at = Time.now
+    self.save
+    Karen::Reminder.new(self).set
   end
 
   def uncomplete
     self.completed = false
+    self.save
   end
 
   private

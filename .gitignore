@@ -22,3 +22,5 @@ anime.json
 dump.rdb
 
 .idea
+
+.env

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150209040453) do
+ActiveRecord::Schema.define(version: 20150209064200) do
 
   create_table "progresses", force: :cascade do |t|
     t.integer  "task_id"
@@ -42,5 +42,14 @@ ActiveRecord::Schema.define(version: 20150209040453) do
   end
 
   add_index "tasks", ["task_id"], name: "index_tasks_on_task_id"
+
+  create_table "users", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "phone_number"
+    t.string   "role"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
 end
