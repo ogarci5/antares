@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :tasks
+  resources :tasks do
+    member do
+      put 'complete'
+    end
+  end
 
   get '/anime' => 'dashboard#anime'
 

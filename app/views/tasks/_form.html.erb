@@ -3,9 +3,14 @@
   <%= f.text_field :name %>
   <%= f.text_field :goal %>
   <%= f.text_area :description %>
-  <%= f.date_select :due_date, {}, class: 'date-select' %>
+  <%= f.select :task_id, Task.pluck(:name, :id).to_a, include_blank: 'None' %>
+  <%= f.check_box :due_date, label: 'Due Date?', checked: @task.due_date? %>
+  <%= f.date_select :due_date, {}, class: 'date-select due-date-select', disabled: true %>
   <%= f.number_field :priority, value: @task.priority || 0 %>
   <%= f.check_box :completed %>
+  <%= f.check_box :recurring %>
+  <%= f.check_box :remind_me %>
+  <%= f.select :period, ['Daily', 'Weekly', 'Monthly'], include_blank: 'None' %>
   <%= link_to 'Back', tasks_path, class: 'btn btn-default' %>
   <%= f.submit %>
 <% end %>

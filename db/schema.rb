@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150208182210) do
+ActiveRecord::Schema.define(version: 20150209040453) do
 
   create_table "progresses", force: :cascade do |t|
     t.integer  "task_id"
@@ -32,8 +32,15 @@ ActiveRecord::Schema.define(version: 20150208182210) do
     t.boolean  "completed"
     t.string   "type"
     t.integer  "priority"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.boolean  "recurring"
+    t.string   "period"
+    t.boolean  "remind_me"
+    t.datetime "last_completed_at"
+    t.integer  "task_id"
   end
+
+  add_index "tasks", ["task_id"], name: "index_tasks_on_task_id"
 
 end

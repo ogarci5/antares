@@ -1,8 +1,9 @@
 class TasksController < ApplicationController
-  before_filter :set_task, only: [:show, :edit, :update, :destroy]
+  before_filter :set_task, only: [:show, :edit, :update, :destroy, :complete]
 
   def index
-    @tasks = Task.all
+    @tasks = Task.main
+    @sub_tasks = Task.not_main
   end
 
   def new
@@ -38,9 +39,17 @@ class TasksController < ApplicationController
     redirect_to tasks_path
   end
 
+  def complete
+    @task.complete
+
+    if @task.save
+      redirect_to tasks_path
+    end
+  end
+
   private
     def task_params
-      params.require(:task).permit(:name, :goal, :description, :due_date, :completed, :priority)
+      params.require(:task).permit(:name, :goal, :description, :due_date, :completed, :priority, :task_id, :recurring, :remind_me, :period)
     end
 
     def set_task

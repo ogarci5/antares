@@ -4,18 +4,50 @@
     New Task <i class="fa fa-plus"></i>
   <% end %>
 </h2>
+<div role="tabpanel">
 
-<% @tasks.each do |task| %>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <%= link_to task.name, task, class: 'panel-link-header' %>
-      <%= link_to task, method: :delete, class: 'panel-actions pull-right' do %><i class="fa fa-remove"></i><% end %>
-      <%= link_to [:edit, task], class: 'panel-actions pull-right' do %><i class="fa fa-pencil"></i><% end %>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#main_tasks" aria-controls="main_tasks" role="tab" data-toggle="tab">Main Tasks</a></li>
+    <li role="presentation"><a href="#sub_tasks" aria-controls="sub_tasks" role="tab" data-toggle="tab">Sub Tasks</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="main_tasks">
+      <% @tasks.each do |task| %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <%= link_to task.name, task, class: 'panel-link-header' %>
+            <%= link_to task, method: :delete, class: 'panel-actions pull-right' do %><i class="fa fa-remove"></i><% end %>
+            <%= link_to [:edit, task], class: 'panel-actions pull-right' do %><i class="fa fa-pencil"></i><% end %>
+          </div>
+          <div class="panel-body">
+            <p><strong>Goal:</strong> <%=task.goal%></p>
+            <p><strong>Due Date:</strong> <%=common_date(task.due_date)%></p>
+            <p><%=simple_format task.description%></p>
+          </div>
+        </div>
+      <% end %>
     </div>
-    <div class="panel-body">
-      <p><strong>Goal: <%=task.goal%></strong></p>
-      <p><strong>Due Date: <%=common_date(task.due_date)%></strong></p>
-      <p><%=simple_format task.description%></p>
+    <div role="tabpanel" class="tab-pane" id="sub_tasks">
+      <% @sub_tasks.each do |task| %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <%= link_to task.owner.name, task.owner, class: 'panel-link-header' %> -
+            <%= link_to task.name, task, class: 'panel-link-header' %>
+            <%= link_to task, method: :delete, class: 'panel-actions pull-right' do %><i class="fa fa-remove"></i><% end %>
+            <%= link_to [:edit, task], class: 'panel-actions pull-right' do %><i class="fa fa-pencil"></i><% end %>
+          </div>
+          <div class="panel-body">
+            <p><strong>Goal:</strong> <%=task.goal%></p>
+            <p><strong>Time Remaining:</strong> <%=distance_of_time_in_words(task.next_due_date, Time.now)%></p>
+            <p><%=simple_format task.description%></p>
+            <%=link_to 'Complete', task, method: :put, class: 'btn btn-danger'%>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
-<% end %>
+</div>
+
