@@ -1,7 +1,7 @@
 class ReminderWorker
   @queue = :default
 
-  def self.perform(task_id)
+  def self.perform(task_id, updated)
     Karen::Reminder.new(task_id).deliver
   end
 end

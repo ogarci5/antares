@@ -1,11 +1,10 @@
-class CreateTasks < ActiveRecord::Migration
+class CreateGoals < ActiveRecord::Migration
   def change
-    create_table :tasks do |t|
+    create_table :goals do |t|
       t.string :name
       t.text :description
-      t.datetime :due_date
+      t.date :due_date
       t.boolean :completed
-      t.string :type
       t.integer :priority
 
       t.timestamps null: false

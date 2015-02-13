@@ -23,7 +23,6 @@
             <%= link_to [:edit, task], class: 'panel-actions pull-right' do %><i class="fa fa-pencil"></i><% end %>
           </div>
           <div class="panel-body">
-            <p><strong>Goal:</strong> <%=task.goal%></p>
             <p><strong>Due Date:</strong> <%=common_date(task.due_date)%></p>
             <p><%=simple_format task.description%></p>
           </div>
@@ -40,7 +39,6 @@
             <%= link_to [:edit, task], class: 'panel-actions pull-right' do %><i class="fa fa-pencil"></i><% end %>
           </div>
           <div class="panel-body">
-            <p><strong>Goal:</strong> <%=task.goal%></p>
             <p><strong>Time Remaining:</strong> <%=distance_of_time_in_words(task.next_due_date, Time.now)%></p>
             <p><%=simple_format task.description%></p>
             <%=link_to 'Complete', task, method: :put, class: 'btn btn-danger'%>

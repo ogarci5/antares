@@ -1,0 +1,2 @@
+class Karen::Redis
+end
