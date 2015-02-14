@@ -4,7 +4,7 @@ class CreateGoals < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.date :due_date
-      t.boolean :completed
+      t.boolean :completed, default: false
       t.integer :priority
 
       t.timestamps null: false

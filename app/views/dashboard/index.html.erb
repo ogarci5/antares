@@ -1,21 +1,53 @@
 <h2 class="text-center dashboard-header"><%=welcome_text%>, Oliver</h2>
-<h3><%= link_to 'Today\'s Schedule', tasks_path, class: 'no-style' %></h3>
-<div class="row">
-  <% @todays_tasks.in_groups(3, false) do |group| %>
-    <div class="col-md-4">
-      <ul class="list-group">
-        <% group.each do |task| %>
-          <li class="list-group-item <%=task.past_due? ? 'list-group-item-danger':''%>">
-            <%=link_to task.name, task, class: 'no-style'%>
-            <span class="pull-right">
-              <%=common_time(task.due_date, daily: true)%>
-            </span>
-          </li>
+<div class="content-slider">
+  <i class="fa fa-chevron-left fa-lg"></i>
+  <i class="fa fa-chevron-right fa-lg"></i>
+  <div class="slider-panels">
+    <div class="sliding-panel active">
+      <h3><%= link_to 'Today\'s Schedule', tasks_path, class: 'no-style' %></h3>
+      <div class="row">
+        <% if @todays_tasks.present? %>
+          <% @todays_tasks.in_groups(3, false) do |group| %>
+            <div class="col-md-4">
+              <ul class="list-group">
+                <% group.each do |task| %>
+                  <li class="list-group-item <%=task.past_due? ? 'list-group-item-danger':''%>">
+                    <%=link_to task.name, task, class: 'no-style'%>
+                    <span class="pull-right">
+                <%=common_time(task.due_date, daily: true)%>
+              </span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="col-md-12">No tasks due today!</p>
         <% end %>
-      </ul>
+      </div>
     </div>
-  <% end %>
+    <div class="sliding-panel inactive">
+      <h3><%= link_to 'Next Week\'s Schedule', tasks_path, class: 'no-style' %></h3>
+      <div class="row">
+        <% (0..6).each do |day| %>
+          <div class="col-md-4 col-md-7ths">
+            <ul class="list-group">
+              <% @this_weeks_tasks.group_by{|task| task.due_date.wday}[day].each do |task| %>
+                <li class="list-group-item <%=task.past_due? ? 'list-group-item-danger':''%>">
+                  <%=link_to task.name, task, class: 'no-style'%>
+                  <span class="pull-right">
+                    <%=common_time(task.due_date, daily: true)%>
+                  </span>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
+
 <h3>Slack</h3>
 <div role="tabpanel" class="row">
   <div class="col-md-3">

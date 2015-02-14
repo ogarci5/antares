@@ -10,7 +10,7 @@ module Karen
     end
 
     def self.remindable
-      all.select(&:recurring?).select(&:remind_me?)
+      all.select(&:remind_me?)
     end
 
     def self.find(id)

@@ -7,8 +7,9 @@ class Task < ActiveRecord::Base
   scope :sub_tasks, ->{ where.not(task_id: nil) }
   scope :recurring, ->{ where(recurring: true) }
   scope :not_completed, ->{ where(completed: false) }
-  scope :today, ->{ where('due_date < ?', Chronic.parse('tomorrow')).reorder('due_date ASC') }
-  scope :this_week, ->{ where('due_date < ?', Chronic.parse('next monday')) }
+  scope :today, ->{ where(due_date: (Chronic.parse('yesterday at midnight')..Chronic.parse('today at midnight'))).reorder('due_date ASC') }
+  scope :not_today, ->{ where('due_date >= ?', Chronic.parse('today at midnight')).reorder('due_date ASC') }
+  scope :this_week, ->{ where('due_date < ?', Chronic.parse('next monday')).reorder('due_date ASC') }
 
   after_commit :update_cache
 
