@@ -21,7 +21,7 @@ module Karen
     def initialize(task_id)
       @task_id = task_id
       @task = Karen::Task.find(@task_id)
-      @message = @task.description[0, 1].downcase + @task.description[1..-1]
+      @message = @task.name[0, 1].downcase + @task.name[1..-1]
     end
 
     def unset?
@@ -52,7 +52,7 @@ module Karen
     end
 
     def send
-      Karen::Message.new(type: self.class.to_s.underscore, text: @task.name).deliver
+      Karen::Message.new(type: self.class.to_s.underscore, text: @message).deliver
       puts 'Reminder for Task %s has been sent' % @task_id
     end
   end

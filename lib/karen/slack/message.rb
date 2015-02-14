@@ -17,7 +17,7 @@ module Karen
             messages = Slack::API.call(channel[:method], {channel: channel[:id], count: 20})
             if messages != retrieve(channel)
               Rails.cache.write("slack_channel_#{channel[:id]}", messages)
-              Karen::Message.new(type: 'karen/slack').deliver if channel[:notify]
+              Karen::Message.new(type: 'karen/slack', text: channel[:name].humanize.downcase).deliver if channel[:notify]
             end
           end
         end
