@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(version: 20150213152908) do
     t.string   "name",        limit: 255
     t.text     "description", limit: 65535
     t.date     "due_date"
-    t.boolean  "completed",   limit: 1
+    t.boolean  "completed",   limit: 1,     default: false
     t.integer  "priority",    limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
   end
 
   create_table "progresses", force: :cascade do |t|
@@ -38,11 +38,11 @@ ActiveRecord::Schema.define(version: 20150213152908) do
     t.string   "name",         limit: 255
     t.text     "description",  limit: 65535
     t.datetime "due_date"
-    t.boolean  "completed",    limit: 1
+    t.boolean  "completed",    limit: 1,     default: false
     t.string   "type",         limit: 255
     t.integer  "priority",     limit: 4
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.boolean  "recurring",    limit: 1
     t.string   "period",       limit: 255
     t.boolean  "remind_me",    limit: 1

@@ -32,7 +32,7 @@
         <% (0..6).each do |day| %>
           <div class="col-md-4 col-md-7ths">
             <ul class="list-group">
-              <% @this_weeks_tasks.group_by{|task| task.due_date.wday}[day].each do |task| %>
+              <% @this_weeks_tasks.group_by{|task| task.due_date.wday}[day].try(:each) do |task| %>
                 <li class="list-group-item <%=task.past_due? ? 'list-group-item-danger':''%>">
                   <%=link_to task.name, task, class: 'no-style'%>
                   <span class="pull-right">
