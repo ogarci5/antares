@@ -22,7 +22,7 @@ module Karen
       @task_id = task_id
       @task = Karen::Task.find(@task_id)
       @message = @task.name[0, 1].downcase + @task.name[1..-1]
-      @period = @task.period.try(:downcase).try(:to_sym) || :weekly
+      @period = @task.period.try(:downcase).try(:to_sym).presence || :weekly
     end
 
     def unset?
