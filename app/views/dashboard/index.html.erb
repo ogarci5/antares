@@ -1,24 +1,47 @@
 <h2 class="text-center dashboard-header"><%=welcome_text%>, Oliver</h2>
-<h3><%= link_to 'Your Goals', tasks_path, class: 'no-style' %></h3>
-<div class="goals-container">
-  <% @tasks.each_slice(3) do |slice| %>
-    <div class="row">
-      <% slice.each do |task| %>
-        <div class="col-md-4">
+<h3><%= link_to 'Today\'s Schedule', tasks_path, class: 'no-style' %></h3>
+<div class="row">
+  <% @todays_tasks.in_groups(3, false) do |group| %>
+    <div class="col-md-4">
+      <ul class="list-group">
+        <% group.each do |task| %>
+          <li class="list-group-item <%=task.past_due? ? 'list-group-item-danger':''%>">
+            <%=link_to task.name, task, class: 'no-style'%>
+            <span class="pull-right">
+              <%=common_time(task.due_date, daily: true)%>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
+<h3>Slack</h3>
+<ul class="nav nav-pills" role="tablist">
+  <% @slack_messages.each_with_index do |channel, i| %>
+    <li role="presentation" class="<%= 'active' if i == 0 %>"><a href="#<%=channel['name']%>" aria-controls="home" role="pill" data-toggle="pill"><%=channel['name'].titleize%></a></li>
+  <% end %>
+</ul>
+<div role="tabpanel" class="row">
+  <div class="tab-content">
+    <% @slack_messages.each_with_index do |channel, i| %>
+      <div role="tabpanel" class="tab-pane <%= 'active' if i == 0 %>" id="<%=channel['name']%>">
+        <div class="col-md-8 col-md-offset-2">
           <div class="panel panel-default">
-            <div class="panel-heading">
-              <%=task.name%>
-              <span class="pull-right">
-                <%=common_date(task.due_date)%>
-              </span>
-            </div>
+            <div class="panel-heading"><%=channel['name'].titleize%></div>
             <div class="panel-body">
-              <%= truncate(task.description, length: 250) %>
-              <%= link_to '&hellip;Read more'.html_safe, tasks_path %>
+              <% if channel['messages'].present? %>
+                <% channel['messages'].each do |message| %>
+                  <p><strong><%=message['user']%></strong> <span class="text-muted"><%=common_time(message['ts'], daily: true)%></span></p>
+                  <p><%=message['text']%></p>
+                <% end %>
+              <% else %>
+                <p>No new messages for today.</p>
+              <% end %>
             </div>
           </div>
         </div>
-      <% end %>
-    </div>
-  <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>

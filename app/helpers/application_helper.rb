@@ -3,7 +3,9 @@ module ApplicationHelper
     date.strftime("%B #{date.day.ordinalize}, %Y")
   end
 
-  def common_time(time)
+  def common_time(time, options = {})
+    return time.strftime('%l:%M %p') if options[:daily]
+    return time.strftime('%B %l:%M %p') if options[:weekly]
     time.strftime("%B #{time.day.ordinalize}, %Y at %l:%M %p")
   end
 

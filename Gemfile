@@ -36,6 +36,7 @@ gem 'resque'
 gem 'resque-delayed'
 gem 'twilio-ruby', '~> 3.12'
 gem 'chronic'
+gem 'curb'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

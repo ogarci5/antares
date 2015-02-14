@@ -1,6 +1,10 @@
 module Karen
 
-  def redis
+  def self.user
+    User.admin
+  end
+
+  def self.redis
     Resque.redis
   end
 end

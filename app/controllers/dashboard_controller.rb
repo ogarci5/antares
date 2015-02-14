@@ -1,6 +1,7 @@
 class DashboardController < ApplicationController
   def index
-    @tasks = Task.main.limit(6)
+    @todays_tasks = Task.today.not_completed
+    @slack_messages = Karen::Slack::Message.today
   end
 
   def anime

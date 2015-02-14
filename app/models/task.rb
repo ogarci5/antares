@@ -4,9 +4,11 @@ class Task < ActiveRecord::Base
 
   default_scope ->{ order('priority DESC, due_date ASC') }
 
-  # Whether or not they have tasks
-  scope :main, ->{ where(task_id: nil) }
-  scope :not_main, ->{ where.not(task_id: nil) }
+  scope :sub_tasks, ->{ where.not(task_id: nil) }
+  scope :recurring, ->{ where(recurring: true) }
+  scope :not_completed, ->{ where(completed: false) }
+  scope :today, ->{ where('due_date < ?', Chronic.parse('tomorrow')).reorder('due_date ASC') }
+  scope :this_week, ->{ where('due_date < ?', Chronic.parse('next monday')) }
 
   after_commit :update_cache
 

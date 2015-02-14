@@ -22,7 +22,6 @@ module Karen
       @task_id = task_id
       @task = Karen::Task.find(@task_id)
       @message = @task.description[0, 1].downcase + @task.description[1..-1]
-      @user = User.admin
     end
 
     def unset?
@@ -46,27 +45,15 @@ module Karen
       end
     end
 
-    def deliver
-      Resque.enqueue(SMSWorker, serialized_message)
-      puts 'Reminder for Task %s has been sent' % @task_id
-    end
-
-    def message
-      if @task.past_due?
-        '%s, you must have forgotten to %s. Please take care of this. -Karen' % [@user.first_name, @message]
-      else
-        '%s, please %s. Thank you -Karen' % [@user.first_name, @message]
-      end
-    end
-
-    def serialized_message
-      {body: message, recipient: @user.phone_number}
-    end
-
     def remind_time
       @task.past_due? ?
         (@task.due_date + REMINDER_TIME_DEFAULTS[:past_due][@task.period.downcase.to_sym]) :
         (@task.due_date - REMINDER_TIME_DEFAULTS[@task.period.downcase.to_sym])
+    end
+
+    def send
+      Karen::Message.new(type: self.class.to_s.underscore, text: @task.name).deliver
+      puts 'Reminder for Task %s has been sent' % @task_id
     end
   end
 end

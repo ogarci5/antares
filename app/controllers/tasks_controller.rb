@@ -2,8 +2,9 @@ class TasksController < ApplicationController
   before_filter :set_task, only: [:show, :edit, :update, :destroy, :complete]
 
   def index
-    @tasks = Task.main
-    @sub_tasks = Task.not_main
+    @tasks = Task.all
+    @sub_tasks = @tasks.sub_tasks
+    @recurring_tasks = @tasks.recurring
   end
 
   def new

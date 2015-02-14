@@ -61,6 +61,7 @@ GEM
       execjs
     coffee-script-source (1.9.0)
     columnize (0.9.0)
+    curb (0.8.6)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
     devise (3.4.1)
@@ -241,6 +242,7 @@ DEPENDENCIES
   bootstrap_form
   byebug
   chronic
+  curb
   devise
   dotenv-rails
   dotiw
