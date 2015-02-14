@@ -72,3 +72,20 @@ a.no-style {
 .tab-pane .panel-default:first-child {
   margin-top: 20px;
 }
+
+#slack-channels {
+  .panel-default {
+    margin-top: 0;
+    .panel-heading {
+      font-weight: bold;
+    }
+  }
+}
+
+#slack-channels-nav {
+  & > li.active > a, & > li.active > a:hover, & > li.active > a:focus {
+    color: $link-color;
+    background-color: white;
+    border: 1px solid $brand-primary;
+  }
+}

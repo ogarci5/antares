@@ -7,7 +7,8 @@ module Karen
       }
       CHANNELS = [{name: 'dynasty_owner', id: 'C02CQNP2C', method: 'channels.history', notify: true},
                   {name: 'general', id: 'C0297QRTF', method: 'channels.history', notify: false},
-                  {name: 'direct_message', id: 'D02B7DHJT', method: 'im.history', notify: true}]
+                  {name: 'jason_ellis', id: 'D02B7DHL1', method: 'im.history', notify: true},
+                  {name: 'jason_straughan', id: 'D02B7DHK1', method: 'im.history', notify: true}]
 
       class << self
 

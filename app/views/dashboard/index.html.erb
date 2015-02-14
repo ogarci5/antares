@@ -17,16 +17,18 @@
   <% end %>
 </div>
 <h3>Slack</h3>
-<ul class="nav nav-pills" role="tablist">
-  <% @slack_messages.each_with_index do |channel, i| %>
-    <li role="presentation" class="<%= 'active' if i == 0 %>"><a href="#<%=channel['name']%>" aria-controls="home" role="pill" data-toggle="pill"><%=channel['name'].titleize%></a></li>
-  <% end %>
-</ul>
 <div role="tabpanel" class="row">
-  <div class="tab-content">
+  <div class="col-md-3">
+    <ul id="slack-channels-nav" class="nav nav-pills nav-stacked" role="tablist">
+      <% @slack_messages.each_with_index do |channel, i| %>
+        <li role="presentation" class="<%= 'active' if i == 0 %>"><a href="#<%=channel['name']%>" aria-controls="home" role="pill" data-toggle="pill"><%=channel['name'].titleize%></a></li>
+      <% end %>
+    </ul>
+  </div>
+  <div id="slack-channels" class="tab-content">
     <% @slack_messages.each_with_index do |channel, i| %>
-      <div role="tabpanel" class="tab-pane <%= 'active' if i == 0 %>" id="<%=channel['name']%>">
-        <div class="col-md-8 col-md-offset-2">
+      <div role="tabpanel" class="tab-pane fade <%= 'in active' if i == 0 %>" id="<%=channel['name']%>">
+        <div class="col-md-9">
           <div class="panel panel-default">
             <div class="panel-heading"><%=channel['name'].titleize%></div>
             <div class="panel-body">
