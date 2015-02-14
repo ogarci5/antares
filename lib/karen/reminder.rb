@@ -22,6 +22,7 @@ module Karen
       @task_id = task_id
       @task = Karen::Task.find(@task_id)
       @message = @task.name[0, 1].downcase + @task.name[1..-1]
+      @period = @task.period.try(:downcase).try(:to_sym) || :weekly
     end
 
     def unset?
@@ -47,8 +48,8 @@ module Karen
 
     def remind_time
       @task.past_due? ?
-        (@task.due_date + REMINDER_TIME_DEFAULTS[:past_due][@task.period.downcase.to_sym]) :
-        (@task.due_date - REMINDER_TIME_DEFAULTS[@task.period.downcase.to_sym])
+        (@task.due_date + REMINDER_TIME_DEFAULTS[:past_due][@period]) :
+        (@task.due_date - REMINDER_TIME_DEFAULTS[@period])
     end
 
     def send
