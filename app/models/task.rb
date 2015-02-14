@@ -31,7 +31,7 @@ class Task < ActiveRecord::Base
   end
 
   def next_due_date
-    case self.period
+    case self.period.downcase
       when 'daily'
         Chronic.parse("tomorrow at #{self.due_date.strftime('%H:%M%P')}", now: self.due_date)
       when 'weekly'
