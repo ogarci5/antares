@@ -88,10 +88,10 @@ module Karen
       # Make sure we aren't too similar
       begin
         message = MESSAGES[type][:messages].shuffle.first
-      end until message.levenshtein_similar($previous_message) < 0.6
+      end until message[:text].levenshtein_similar($previous_message) < 0.6
 
       options = message[:order].map{|o| self.send(o)}
-      $previous_message = message
+      $previous_message = message[:text]
 
       rand = message[:order].include?(:name) ? Random.new.rand(6) : Random.new.rand(2)
       rand = 2 if rand > 2
