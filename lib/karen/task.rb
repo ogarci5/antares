@@ -18,7 +18,7 @@ module Karen
     end
 
     def self.uncomplete_all
-      self.remindable.select(&:completed?).select(&:past_due?).each(&:uncomplete)
+      self.remindable.select(&:recurring).select(&:completed?).select(&:past_due?).each(&:uncomplete)
     end
 
   end
