@@ -73,7 +73,7 @@ module Karen
       @text = options[:text]
       @user = Karen.user
       @name = @user.first_name
-      $previous_message ||= nil
+      $previous_message ||= ''
     end
 
     def deliver
