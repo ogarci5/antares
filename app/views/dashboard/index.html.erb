@@ -40,8 +40,8 @@
             <% if weekday_tasks.present? %>
               <ul class="list-group">
                 <% weekday_tasks.each do |task| %>
-                  <li class="list-group-item <%=task.past_due? && !task.completed? ? 'list-group-item-danger':''%>">
-                    <span class="weekday-task"><%= '<i class="fa fa-check"></i>'.html_safe if task.completed?%><%=link_to task.name, task %></span>
+                  <li class="list-group-item <%=task_list_group_class(task)%>">
+                    <span class="weekday-task"><%=link_to task.name, task %></span>
                     <p class="weekday-due-date"><%=common_time(task.due_date, daily: true)%></p>
                   </li>
                 <% end %>
