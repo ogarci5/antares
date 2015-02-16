@@ -9,6 +9,7 @@ $(function() {
       $(this).removeClass('inactive').addClass('active');
     }});
   });
+
   $('.content-slider .fa-chevron-right').click(function() {
     $('.content-slider .sliding-panel.active').hide('slide', {duration: 2000, direction: 'right', easing: 'easeInOutQuad', complete: function() {
       $(this).removeClass('active').addClass('inactive');
@@ -17,4 +18,5 @@ $(function() {
       $(this).removeClass('inactive').addClass('active');
     }});
   });
+
 });

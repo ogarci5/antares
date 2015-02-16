@@ -42,6 +42,7 @@ class TasksController < ApplicationController
 
   def complete
     @task.complete
+    flash[:info] = '%s was completed.' % @task.name
     redirect_to tasks_path
   end
 

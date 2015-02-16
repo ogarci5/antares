@@ -1,13 +1,14 @@
-<h3><%=@task.name%></h3>
+<h3>Showing Task</h3>
 <div class="panel panel-default">
-  <div class="panel-heading"><%=@task.goal%>
+  <div class="panel-heading"><%=@task.name%>
     <%= destroy_button(@task, '') %>
     <%= edit_button(@task, '') %>
   </div>
   <div class="panel-body">
     <p><strong>Priority: <%=@task.priority%></strong></p>
-    <p><strong>Due Date: <%=common_date(@task.due_date)%></strong></p>
+    <p><strong>Due Date: <%=common_time(@task.due_date)%></strong></p>
     <p><%=simple_format @task.description%></p>
+    <%=link_to 'Complete', complete_task_path(@task), method: :put, class: 'btn btn-danger'%>
   </div>
 </div>
 <%= link_to 'Back', tasks_path, class: 'btn btn-default' %>

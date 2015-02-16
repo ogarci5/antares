@@ -28,19 +28,27 @@
     </div>
     <div class="sliding-panel inactive">
       <h3><%= link_to 'Next Week\'s Schedule', tasks_path, class: 'no-style' %></h3>
-      <div class="row">
+      <div id="week-schedule" class="row">
         <% (0..6).each do |day| %>
           <div class="col-md-4 col-md-7ths">
-            <ul class="list-group">
-              <% @this_weeks_tasks.group_by{|task| task.due_date.wday}[day].try(:each) do |task| %>
-                <li class="list-group-item <%=task.past_due? ? 'list-group-item-danger':''%>">
-                  <%=link_to task.name, task, class: 'no-style'%>
-                  <span class="pull-right">
-                    <%=common_time(task.due_date, daily: true)%>
-                  </span>
-                </li>
-              <% end %>
-            </ul>
+            <% if Time.now.wday == day %>
+              <h5 class="weekday-header"><%=Date::DAYNAMES[day]%></h5>
+            <% else %>
+              <h5 class="weekday-header text-muted"><%=Date::DAYNAMES[day]%></h5>
+            <%end %>
+            <% weekday_tasks = @this_weeks_tasks.group_by{|task| task.due_date.wday}[day] || [] %>
+            <% if weekday_tasks.present? %>
+              <ul class="list-group">
+                <% weekday_tasks.each do |task| %>
+                  <li class="list-group-item <%=task.past_due? ? 'list-group-item-danger':''%>">
+                    <span class="weekday-task"><%=link_to task.name, task %></span>
+                    <p class="weekday-due-date"><%=common_time(task.due_date, daily: true)%></p>
+                  </li>
+                <% end %>
+              </ul>
+            <% else %>
+              <p>No tasks due.</p>
+            <% end %>
           </div>
         <% end %>
       </div>

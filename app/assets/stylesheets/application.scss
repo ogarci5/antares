@@ -89,9 +89,38 @@ a.no-style {
     border: 1px solid $brand-primary;
   }
 }
-
-.col-md-7ths {
-  width: 14.2%;
+#week-schedule {
+  .col-md-7ths {
+    width: 14.285714285714285714285714285714%;
+    *width: 14.285714285714285714285714285714%;
+    padding-left: 5px;
+    padding-right: 5px;
+    &:first-child {
+      padding-left: 15px;
+    }
+    &:last-child {
+      padding-right: 15px;
+    }
+    .weekday-header {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+    .list-group {
+      margin-bottom: 0;
+      .list-group-item {
+        padding: 5px 10px;
+        a {
+          color: #333;
+          &:hover {
+            text-decoration: none;
+          }
+        }
+        .weekday-due-date {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
 }
 
 .content-slider {
@@ -143,8 +172,9 @@ a.no-style {
   .sliding-panel.inactive {
     display: none;
     position: absolute;
+    // Important so that animations know not to mess with margins
     border: 1px solid transparent;
-    width: calc(100%);
+    width: 100%;
     top: 0;
     height: 100%;
   }
