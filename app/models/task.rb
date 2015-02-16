@@ -13,7 +13,7 @@ class Task < ActiveRecord::Base
   after_commit :update_cache
 
   def self.this_week
-    if Time.now.sunday?
+    if Time.zone.now.sunday?
       where(due_date: Chronic.parse('today at 0:00')..Chronic.parse('next saturday at 23:59')).reorder('due_date ASC')
     else
       where(due_date: Chronic.parse('this sunday at 0:00')..Chronic.parse('next saturday at 23:59')).reorder('due_date ASC')

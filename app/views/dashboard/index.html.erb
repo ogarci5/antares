@@ -31,7 +31,7 @@
       <div id="week-schedule" class="row">
         <% (0..6).each do |day| %>
           <div class="col-md-4 col-md-7ths">
-            <% if Time.now.wday == day %>
+            <% if Time.zone.now.wday == day %>
               <h5 class="weekday-header"><%=Date::DAYNAMES[day]%></h5>
             <% else %>
               <h5 class="weekday-header text-muted"><%=Date::DAYNAMES[day]%></h5>
