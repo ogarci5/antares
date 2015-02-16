@@ -16,7 +16,7 @@ class Task < ActiveRecord::Base
     if Time.zone.now.sunday?
       where(due_date: Chronic.parse('today at 0:00')..Chronic.parse('next saturday at 23:59')).reorder('due_date ASC')
     else
-      where(due_date: Chronic.parse('this sunday at 0:00')..Chronic.parse('next saturday at 23:59')).reorder('due_date ASC')
+      where(due_date: Chronic.parse('last sunday at 0:00')..Chronic.parse('next saturday at 23:59')).reorder('due_date ASC')
     end
   end
 
