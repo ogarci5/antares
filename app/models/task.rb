@@ -23,7 +23,7 @@ class Task < ActiveRecord::Base
   def complete
     self.completed = true
     self.completed_at = Time.now
-    
+
     # If it's recurring, when we complete this, a "new" task is auto generated so then it's not completed
     if recurring?
       self.due_date = next_due_date

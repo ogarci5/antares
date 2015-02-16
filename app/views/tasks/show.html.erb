@@ -1,6 +1,8 @@
 <h3>Showing Task</h3>
 <div class="panel panel-default">
-  <div class="panel-heading"><%=@task.name%>
+  <div class="panel-heading">
+    <%= '<i class="fa fa-check"></i>'.html_safe if @task.completed?%>
+    <%=@task.name%>
     <%= destroy_button(@task, '') %>
     <%= edit_button(@task, '') %>
   </div>
