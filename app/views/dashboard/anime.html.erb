@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2>Listing Anime</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <%=form_tag(set_anime_base_path, method: :post) do |f| %>
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="submit">Set</button>
+            </span>
+            <input name="link" type="text" class="form-control" placeholder="Set base URL">
+          </div>
+        <% end %>
+      </div>
+      <div class="col-lg-6">
+        <%=form_tag(anime_path, method: :get) do |f| %>
+          <div class="input-group">
+            <input name="search" type="text" class="form-control" placeholder="Search by name">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="submit">Search</button>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <br>
+    <div class="panel panel-default">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Language</th>
+          <th>Subtitle</th>
+          <th>Size</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @animes.each do |anime| %>
+          <tr>
+            <td><%=link_to anime['name'], Anime.link+anime['link']%></td>
+            <td><%=anime['language']%></td>
+            <td><%=anime['subtitle']%></td>
+            <td><%=anime['size']%></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

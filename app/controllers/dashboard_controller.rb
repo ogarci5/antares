@@ -6,6 +6,15 @@ class DashboardController < ApplicationController
   end
 
   def anime
-    @animes = Anime.all
+    if params[:search].present?
+      @animes = Anime.search_by_name(params[:search])
+    else
+      @animes = Anime.all
+    end
+  end
+
+  def set_anime_base
+    Anime.link = params[:link]
+    redirect_to anime_path
   end
 end

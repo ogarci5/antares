@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   get '/anime' => 'dashboard#anime'
+  post '/anime' => 'dashboard#set_anime_base', as: :set_anime_base
 
   root 'dashboard#index'
 
