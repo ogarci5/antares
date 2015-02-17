@@ -1,20 +1,50 @@
 module Karen
   class Client
-    def self.start
-      minutes = 0
-      begin
-        Karen::Task.uncomplete_all
-        Karen::Reminder.update_all
+    @commands = []
 
-        if minutes == 0
-          Karen::Slack::Message.update_all
-          minutes +=3
-        else
-          minutes -= 1
+    class << self
+      attr_accessor :commands
+
+      def configure(&config)
+        config.call(self)
+      end
+
+      def run_every(seconds = 60, &command)
+        commands << {seconds: seconds.to_i, block: command}
+      end
+    end
+
+    def configure(&config)
+      self.class.configure(&config)
+    end
+
+    def start
+      min_timeout, max_timeout = *timeout_array
+
+      iterations = 0
+      loop do
+        # Decide whether to run the command or not
+        # Meaning, does command[:seconds] divide min_timeout * iterations
+
+        commands.each do |command|
+          command[:block].call if (min_timeout * iterations) % command[:seconds] == 0
         end
 
-        sleep 60
-      end until false
+        # If we're at the max timeout, reset
+        (min_timeout * iterations == max_timeout) ? iterations = 0 : iterations += 1
+        sleep min_timeout
+      end
+    end
+
+    private
+
+    def commands
+      self.class.commands
+    end
+
+    def timeout_array
+      seconds = commands.map{|command| command[:seconds]}
+      [seconds.inject{|res, n| res.gcd(n)}, seconds.max]
     end
   end
 end

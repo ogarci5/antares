@@ -1,5 +1,6 @@
 namespace :karen do
   task start: :environment do
-    Karen::Client.start
+    Karen.initialize!
+    Karen.client.start
   end
 end

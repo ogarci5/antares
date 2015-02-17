@@ -1,10 +1,21 @@
 module Karen
+  class << self
+    @client = nil
+    attr_accessor :client
 
-  def self.user
-    User.admin
-  end
+    Karen::Configuration::OPTIONS.each do |name|
+      define_method(name) do
+        Karen::Configuration.send(name)
+      end
+    end
 
-  def self.redis
-    Resque.redis
+    def initialize!
+      Dir[File.dirname(__FILE__) + '/karen/config/*.rb'].each {|file| require file }
+      Dir[File.dirname(__FILE__) + '/karen/initializers/*.rb'].each {|file| require file }
+    end
+
+    def configure(&config)
+      Karen::Configuration.new(&config)
+    end
   end
 end
