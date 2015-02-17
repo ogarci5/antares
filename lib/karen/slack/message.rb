@@ -33,7 +33,7 @@ module Karen
             messages = retrieve(channel)
             messages = messages['messages'].reverse.map do |msg|
               msg['user'] = USER_MAPPING[msg['user']]
-              msg['ts'] = Time.at(msg['ts'].to_i)
+              msg['ts'] = Time.zone.at(msg['ts'].to_i)
               USER_MAPPING.each do |id, name|
                 msg['text'] = msg['text'].gsub(id, name)
               end
@@ -46,7 +46,7 @@ module Karen
         # Scopes
         def today
           all.map do |channel|
-            channel['messages'] = channel['messages'].select{|msg| msg['ts'] > Chronic.parse('yesterday at midnight')}
+            channel['messages'] = channel['messages'].select{|msg| msg['ts'] > Chronic.parse('today at 0:00')}
             channel
           end
         end
