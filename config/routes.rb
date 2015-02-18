@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   get '/anime' => 'dashboard#anime'
   post '/anime' => 'dashboard#set_anime_base', as: :set_anime_base
 
+  scope :admin do
+    get '/settings' => 'admin#settings'
+    post '/secret' => 'admin#secret'
+  end
+
   root 'dashboard#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
