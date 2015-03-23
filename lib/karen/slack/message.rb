@@ -6,6 +6,7 @@ module Karen
         'U02CZ5W7K'=>'jeffreyjurgajtis', 'U02D2J0AB'=>'joseph.villafranca', 'U0298LAMH'=>'josh', 'U02B7DHJ7'=>'oliver.garcia'
       }
       CHANNELS = [{name: 'dynasty_owner', id: 'C02CQNP2C', method: 'channels.history', notify: true},
+                  {name: 'pcs_grades', id: 'C02T82L8J', method: 'channels.history', notify: true},
                   {name: 'general', id: 'C0297QRTF', method: 'channels.history', notify: false},
                   {name: 'jason_ellis', id: 'D02B7DHL1', method: 'im.history', notify: true},
                   {name: 'jason_straughan', id: 'D02B7DHK1', method: 'im.history', notify: true}]
