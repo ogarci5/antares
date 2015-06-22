@@ -60,20 +60,21 @@
 <div role="tabpanel" class="row">
   <div class="col-md-3">
     <ul id="slack-channels-nav" class="nav nav-pills nav-stacked" role="tablist">
-      <% @slack_messages.each_with_index do |channel, i| %>
-        <li role="presentation" class="<%= 'active' if i == 0 %>"><a href="#<%=channel['name']%>" aria-controls="home" role="pill" data-toggle="pill"><%=channel['name'].titleize%></a></li>
+      <% @slack_channels.each_with_index do |channel, i| %>
+        <li role="presentation" class="<%= 'active' if i == 0 %>"><a href="#<%=channel.name%>" aria-controls="home" role="pill" data-toggle="pill"><%=channel.name.titleize%></a></li>
       <% end %>
     </ul>
   </div>
   <div id="slack-channels" class="tab-content">
-    <% @slack_messages.each_with_index do |channel, i| %>
-      <div role="tabpanel" class="tab-pane fade <%= 'in active' if i == 0 %>" id="<%=channel['name']%>">
+    <% @slack_channels.each_with_index do |channel, i| %>
+      <div role="tabpanel" class="tab-pane fade <%= 'in active' if i == 0 %>" id="<%=channel.name%>">
         <div class="col-md-9">
           <div class="panel panel-default">
-            <div class="panel-heading"><%=channel['name'].titleize%></div>
+            <div class="panel-heading"><%=channel.name.titleize%></div>
             <div class="panel-body">
-              <% if channel['messages'].present? %>
-                <% channel['messages'].each do |message| %>
+              <% if channel.messages.present? %>
+                <% channel.messages.each do |message| %>
+                  <% p message %>
                   <p><strong><%=message['user']%></strong> <span class="text-muted"><%=common_time(message['ts'], daily: true)%></span></p>
                   <p><%=message['text']%></p>
                 <% end %>

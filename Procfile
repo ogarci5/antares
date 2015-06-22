@@ -1,5 +1,6 @@
 # ALL TASKS:
-web: passenger start -p $PORT
+# web: passenger start -p $PORT
+web: rails s -p $PORT
 
 worker: rake resque:work VERBOSE=true
 delayed_worker: rake resque_delayed:work VERBOSE=true

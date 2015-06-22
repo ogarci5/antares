@@ -6,7 +6,7 @@ module Karen
 
       def self.call(api_method, query = {})
         query = query.merge(BASE_QUERY)
-        call = Curl.post(BASE_URL+api_method, query)
+        call = RestClient.post(BASE_URL+api_method, query)
         ActiveSupport::JSON.decode(call.body)
       end
     end

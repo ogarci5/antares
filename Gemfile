@@ -37,7 +37,7 @@ gem 'resque'
 gem 'resque-delayed'
 gem 'twilio-ruby', '~> 3.12'
 gem 'chronic'
-gem 'curb'
+gem 'rest-client'
 gem 'amatch'
 gem 'selenium-webdriver'
 

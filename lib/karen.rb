@@ -12,6 +12,7 @@ module Karen
     def initialize!
       Dir[File.dirname(__FILE__) + '/karen/config/*.rb'].each {|file| require file }
       Dir[File.dirname(__FILE__) + '/karen/initializers/*.rb'].each {|file| require file }
+      Karen::Slack.load!
     end
 
     def configure(&config)

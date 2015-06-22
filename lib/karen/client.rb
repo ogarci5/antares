@@ -5,8 +5,8 @@ module Karen
     class << self
       attr_accessor :commands
 
-      def configure(&config)
-        config.call(self)
+      def configure
+        yield self
       end
 
       def run_every(seconds = 60, &command)
