@@ -1,5 +1,5 @@
 class Karen::Model::Base
-  extend Karen::Model
+  include Karen::Model
 
   class << self
     def base_module
@@ -8,6 +8,10 @@ class Karen::Model::Base
 
     def base_class
       to_s.tableize.split('/').last
+    end
+
+    def display_name
+      base_class.titleize
     end
 
     def all
@@ -35,8 +39,23 @@ class Karen::Model::Base
   end
 
   def save
+    format_types!
     data = Karen::Redis.get(self.class.base_module)
     data[self.class.base_class] = data[self.class.base_class].map { |model| model['id'] == id ? self : model }
     Karen::Redis.set(self.class.base_module, data)
+  end
+
+  def model_name
+    self.class.base_class.singularize
+  end
+
+  private
+
+  def format_types!
+    self.class.settings_with_types.each do |setting|
+      if setting[:type] == :boolean
+        self.send("#{setting[:name]}=", self.send(setting[:name]).present?)
+      end
+    end
   end
 end

@@ -2,6 +2,14 @@ class Karen::Slack::Channel < Karen::Model::Base
   schema :id, :name, :is_channel, :created, :creator, :is_archived, :is_general, :is_member, :members, :topic,
          :purpose, :num_members, :notify, :display
 
+  set_settings [
+    { name: :notify, type: :boolean },
+    { name: :display, type: :boolean }
+  ]
+
+  scope :notify, -> { where notify: true }
+  scope :display, -> { where display: true }
+
   def method
     'channels.history'
   end
@@ -24,5 +32,9 @@ class Karen::Slack::Channel < Karen::Model::Base
         msg
       end
     end
+  end
+
+  def to_s
+    name.titleize
   end
 end

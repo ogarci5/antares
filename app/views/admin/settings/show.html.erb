@@ -1,0 +1,11 @@
+<h2><%= @model %></h2>
+<%= bootstrap_form_for @model.model_name, url: admin_setting_path(id: @model.id, namespace: @model.class.base_module, type: @model.class.base_class), method: :patch do |form| %>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <% @model.class.settings.each do |setting| %>
+        <%= form.text_field setting, value: @model.send(setting) %>
+      <% end %>
+    </div>
+  </div>
+  <%= form.submit 'Update', class: 'btn btn-default' %>
+<% end %>

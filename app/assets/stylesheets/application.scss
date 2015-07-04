@@ -121,6 +121,37 @@ a.no-style {
       }
     }
   }
+  .col-md-8ths {
+    width: 12.5%;
+    *width: 12.5%;
+    padding-left: 5px;
+    padding-right: 5px;
+    &:first-child {
+      padding-left: 15px;
+    }
+    &:last-child {
+      padding-right: 15px;
+    }
+    .weekday-header {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+    .list-group {
+      margin-bottom: 0;
+      .list-group-item {
+        padding: 5px 10px;
+        a {
+          color: #333;
+          &:hover {
+            text-decoration: none;
+          }
+        }
+        .weekday-due-date {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
 }
 
 .content-slider {

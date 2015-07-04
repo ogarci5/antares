@@ -1,0 +1,47 @@
+<h2>Settings</h2>
+<div role="tabpanel" class="row">
+  <div class="col-md-12">
+    <ul id="admin-settings-nav" class="nav nav-pills" role="tablist">
+      <li role="presentation" class="active"><a href="#slack-settings" aria-controls="slack" role="pill" data-toggle="pill">Slack</a></li>
+      <li role="presentation"><a href="#secret-settings" aria-controls="secret" role="pill" data-toggle="pill">Secret</a></li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade in active" id="slack-settings">
+        <% @slack_models.each do |model_class| %>
+          <div class="panel panel-default">
+            <div class="panel-heading"><%= model_class.display_name %></div>
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <% model_class.settings.each do |setting| %>
+                  <th><%= setting.to_s.titleize %></th>
+                <% end %>
+              </tr>
+              </thead>
+              <tbody>
+              <% model_class.all.each do |model| %>
+                <tr>
+                  <td><%= link_to model.to_s, admin_setting_path(id: model.id, namespace: model_class.base_module, type: model_class.base_class) %></td>
+                  <% model_class.settings.each do |setting| %>
+                    <td><%= model.send setting %></td>
+                  <% end %>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% end %>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="secret-settings">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <%= link_to secret_path, method: :post, class: 'btn btn-danger' do %>
+              Toggle Secret  <span class="glyphicon glyphicon-<%=cookies[:secret] == 'true' ? 'heart' : 'heart-empty'%>"></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -9,7 +9,7 @@ module Karen
     end
 
     def self.models
-      %i.channels users ims.
+      %w(channels users ims).map{ |model| "karen/slack/#{model}".classify.constantize }
     end
   end
 end

@@ -8,12 +8,19 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :calender_events
+
   get '/anime' => 'dashboard#anime'
   post '/anime' => 'dashboard#set_anime_base', as: :set_anime_base
 
+  get '/japan' => 'dashboard#japan'
+
   scope :admin do
-    get '/settings' => 'admin#settings'
     post '/secret' => 'admin#secret'
+  end
+
+  namespace :admin do
+    resources :settings
   end
 
   root 'dashboard#index'
