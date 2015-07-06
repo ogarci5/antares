@@ -37,10 +37,10 @@ class Karen::Slack::Im < Karen::Model::Base
   end
 
   def to_s
-    Karen::Slack::User.find(user) || user
+    Karen::Slack::User.find(user).to_s.presence || user
   end
 
   def name
-    to_s.downcase
+    to_s
   end
 end

@@ -61,16 +61,16 @@
   <div class="col-md-3">
     <ul id="slack-channels-nav" class="nav nav-pills nav-stacked" role="tablist">
       <% @slack_channels.each_with_index do |channel, i| %>
-        <li role="presentation" class="<%= 'active' if i == 0 %>"><a href="#<%=channel.name%>" aria-controls="home" role="pill" data-toggle="pill"><%=channel.name.titleize%></a></li>
+        <li role="presentation" class="<%= 'active' if i == 0 %>"><a href="#<%=channel.name.parameterize%>" aria-controls="home" role="pill" data-toggle="pill"><%=channel.name.parameterize.titleize%></a></li>
       <% end %>
     </ul>
   </div>
   <div id="slack-channels" class="tab-content">
     <% @slack_channels.each_with_index do |channel, i| %>
-      <div role="tabpanel" class="tab-pane fade <%= 'in active' if i == 0 %>" id="<%=channel.name%>">
+      <div role="tabpanel" class="tab-pane fade <%= 'in active' if i == 0 %>" id="<%=channel.name.parameterize%>">
         <div class="col-md-9">
           <div class="panel panel-default">
-            <div class="panel-heading"><%=channel.name.titleize%></div>
+            <div class="panel-heading"><%=channel.name.parameterize.titleize%></div>
             <div class="panel-body">
               <% if channel.messages.present? %>
                 <% channel.messages.each do |message| %>
