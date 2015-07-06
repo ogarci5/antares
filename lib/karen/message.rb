@@ -77,7 +77,7 @@ module Karen
     end
 
     def deliver
-      TwilioApi.new(self.serialize).deliver
+      TwilioApi.new(serialize).deliver
     end
 
     def serialize

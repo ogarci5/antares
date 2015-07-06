@@ -1,9 +1,5 @@
 class AdminController < ApplicationController
 
-  def settings
-
-  end
-
   def secret
     if cookies[:secret].present?
       cookies[:secret] = cookies[:secret] == 'true' ? false : true

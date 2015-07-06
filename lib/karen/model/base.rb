@@ -10,12 +10,16 @@ class Karen::Model::Base
       to_s.tableize.split('/').last
     end
 
+    def redis_key
+      "#{base_module}:#{base_class}"
+    end
+
     def display_name
       base_class.titleize
     end
 
     def all
-      (Karen::Redis.get(base_module)[base_class] || []).map { |model_hash| new model_hash }
+      (Karen::Redis.get(redis_key) || []).map { |model_hash| new model_hash }
     end
 
     def first
@@ -40,9 +44,9 @@ class Karen::Model::Base
 
   def save
     format_types!
-    data = Karen::Redis.get(self.class.base_module)
-    data[self.class.base_class] = data[self.class.base_class].map { |model| model['id'] == id ? self : model }
-    Karen::Redis.set(self.class.base_module, data)
+    data = Karen::Redis.get(self.class.redis_key)
+    data.map! { |model| model['id'] == id ? self : model }
+    Karen::Redis.set(self.class.redis_key, data)
   end
 
   def model_name
@@ -54,7 +58,7 @@ class Karen::Model::Base
   def format_types!
     self.class.settings_with_types.each do |setting|
       if setting[:type] == :boolean
-        self.send("#{setting[:name]}=", self.send(setting[:name]).present?)
+        self.send "#{setting[:name]}=", [true, 'true', 'on'].include?(self.send(setting[:name]))
       end
     end
   end

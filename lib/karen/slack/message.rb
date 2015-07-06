@@ -12,6 +12,7 @@ module Karen
             messages = Slack::API.call(channel.method, {channel: channel.id, count: 20})
             if messages != channel.raw_messages
               Rails.cache.write("slack_channel_#{channel.id}_raw_messages", messages)
+              Rails.cache.delete("slack_channel_#{channel.id}_raw_messages")
               Karen::Message.new(type: 'karen/slack', text: channel.name.humanize.downcase).deliver if channel.notify
             end
           end
@@ -19,10 +20,11 @@ module Karen
         
         def update_ims
           Karen::Slack::Im.all.each do |im|
-            messages = Slack::API.call(im.method, {im: im.id, count: 20})
+            messages = Slack::API.call(im.method, {channel: im.id, count: 20})
             if messages != im.raw_messages
               Rails.cache.write("slack_im_#{im.id}_raw_messages", messages)
-              Karen::Message.new(type: 'karen/slack', text: im.name.humanize.downcase).deliver if im.notify
+              Rails.cache.delete("slack_im_#{im.id}_messages")
+              Karen::Message.new(type: 'karen/slack', text: im.to_s).deliver if im.notify
             end
           end
         end

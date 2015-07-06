@@ -8,5 +8,5 @@ Karen.client.configure do |config|
     Karen::Reminder.update_all
   end
 
-  #config.run_every(3.minutes) { Karen::Slack::Message.update_all }
+  config.run_every(3.minutes) { Karen::Slack::Message.update_all }
 end

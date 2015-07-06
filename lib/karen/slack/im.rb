@@ -24,8 +24,7 @@ class Karen::Slack::Im < Karen::Model::Base
   end
 
   def messages
-    return @messages if @messages.present?
-    @messages = Rails.cache.fetch("slack_im_#{id}_messages") do
+    Rails.cache.fetch("slack_im_#{id}_messages") do
       raw_messages['messages'].reverse.map do |msg|
         msg['user'] = Karen::Slack::User.find(msg['user']).try(:real_name)
         msg['ts'] = Time.zone.at(msg['ts'].to_i)
@@ -39,5 +38,9 @@ class Karen::Slack::Im < Karen::Model::Base
 
   def to_s
     Karen::Slack::User.find(user) || user
+  end
+
+  def name
+    to_s.downcase
   end
 end
