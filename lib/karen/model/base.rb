@@ -14,16 +14,22 @@ class Karen::Model::Base
       "#{base_module}:#{base_class}"
     end
 
+    def redis_instance_key(id)
+      "#{redis_key}:#{id}"
+    end
+
     def display_name
       base_class.titleize
     end
 
     def all
-      (Karen::Redis.get(redis_key) || []).map { |model_hash| new model_hash }
+      ids = Karen::Redis.get(redis_key).map { |id| redis_instance_key id }
+      (Karen::Redis.mget(*ids) || []).map { |model_hash| new model_hash }
     end
 
     def first
-      all.first
+      id = Karen::Redis.get(redis_key).first
+      Karen::Redis.get redis_instance_key(id)
     end
 
     def where(attr = {})
@@ -32,7 +38,7 @@ class Karen::Model::Base
     end
 
     def find(id)
-      where(id: id).first
+      Karen::Redis.get redis_instance_key(id)
     end
   end
 
@@ -44,13 +50,15 @@ class Karen::Model::Base
 
   def save
     format_types!
-    data = Karen::Redis.get(self.class.redis_key)
-    data.map! { |model| model['id'] == id ? self : model }
-    Karen::Redis.set(self.class.redis_key, data)
+    Karen::Redis.set(redis_key, self)
   end
 
   def model_name
     self.class.base_class.singularize
+  end
+
+  def redis_key
+    "#{redis_key}:#{id}"
   end
 
   private

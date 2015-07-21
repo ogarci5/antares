@@ -6,9 +6,19 @@ module Karen
         ActiveSupport::JSON.decode(Karen.redis.get(key.to_s))
       end
 
+      def mget(*keys)
+        return {} unless Karen.redis
+        Karen.redis.mget(*keys).map { |result| ActiveSupport::JSON.decode result }
+      end
+
       def set(key, value)
         return {} unless Karen.redis
         Karen.redis.set(key, value.to_json)
+      end
+
+      def setnx(key, value)
+        return {} unless Karen.redis
+        Karen.redis.setnx(key, value.to_json)
       end
     end
   end
