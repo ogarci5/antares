@@ -40,6 +40,7 @@ gem 'chronic'
 gem 'rest-client'
 gem 'amatch'
 gem 'selenium-webdriver'
+gem 'ohm'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

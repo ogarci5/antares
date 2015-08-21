@@ -1,0 +1,82 @@
+<h2>JLPT</h2>
+<div role="tabpanel" class="row">
+  <div class="col-md-2">
+    <ul class="nav nav-pills nav-stacked" role="tablist">
+      <% %w(kanji vocab grammar).each_with_index do |tab, i| %>
+        <li role="presentation" class="<%= 'active' if i == 0 %>"><a href="#<%=tab%>" aria-controls="home" role="pill" data-toggle="pill"><%=tab.titleize%></a></li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="kanji">
+      <div class="col-md-10">
+        <div class="quickflip-wrapper">
+          <% @kanji.each do |kanji| %>
+            <div class="panel panel-default quick-flip-card">
+              <div class="panel-body quickFlipCta">
+                <h1 class="text-center"><%=kanji['kanji']%></h1>
+              </div>
+            </div>
+            <div class="panel panel-default quick-flip-card">
+              <div class="panel-body quickFlipCta">
+                <% %w(onyomi kunyomi english).each do |field| %>
+                  <% if kanji[field].present? %>
+                    <h2 class="text-center"><%= field.titleize%>: <%=kanji[field]%></h2>
+                  <% end %>
+                <% end %>
+                <h4>Sample Sentences</h4>
+                <% kanji['sentences'].shuffle.first(3).each do |sentence| %>
+                  <p><%=sentence.html_safe%></p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade in active" id="vocab">
+      <div class="col-md-10">
+        <div class="quickflip-wrapper">
+          <% @vocab.each do |vocab| %>
+            <div class="panel panel-default quick-flip-card">
+              <div class="panel-body quickFlipCta">
+                <h1 class="text-center"><%=vocab['kanji']%><small><%=vocab['kana']%></small></h1>
+              </div>
+            </div>
+            <div class="panel panel-default quick-flip-card">
+              <div class="panel-body quickFlipCta">
+                <h2 class="text-center"><%=vocab['english']%></h2>
+                <h4>Sample Sentences</h4>
+                <% vocab['sentences'].shuffle.first(3).each do |sentence| %>
+                  <p><%=sentence.html_safe%></p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade in active" id="grammar">
+      <div class="col-md-10">
+        <div class="quickflip-wrapper">
+          <% @grammar.each do |grammar| %>
+            <div class="panel panel-default quick-flip-card">
+              <div class="panel-body quickFlipCta">
+                <h1 class="text-center"><%=grammar['name']%></h1>
+              </div>
+            </div>
+            <div class="panel panel-default quick-flip-card">
+              <div class="panel-body quickFlipCta">
+                <h4><%=grammar['description']['text']%></h4>
+                <h4>Sample Sentences</h4>
+                <% grammar['description']['examples'].each do |sentence| %>
+                  <p><%=sentence.gsub("\n", '<br>').html_safe%></p>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
