@@ -13,7 +13,6 @@
       <li><%= link_to 'Home', root_path %></li>
       <li><%= link_to 'Tasks', tasks_path %></li>
       <li><%= link_to 'Settings', admin_settings_path %></li>
-      <li><%= link_to 'Calendar', calender_events_path %></li>
       <% if cookies[:secret] == 'true' %>
         <li><%= link_to 'Anime', anime_path %></li>
         <li><%= link_to 'Centauri', 'http://oliver.moe:7000/' %></li>

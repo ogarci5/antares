@@ -5,30 +5,26 @@ module Karen
     end
 
     module ClassMethods
-      def schema(*attrs)
-        attr_accessor *attrs
-        define_method :serialize do
-          attrs.inject({}) {|hsh, sym| hsh[sym] = self.send(sym); hsh} || {}
-        end
-
-        define_method(:attributes) { attrs }
-
+      def attr_accessible(attrs = {})
+        attrs = attrs.with_indifferent_access
         (class << self; self; end).instance_eval do
-          define_method(:attributes) { attrs }
+          define_method(:permitted_attributes) do |hash|
+            permitted_hash = Hash[hash.map{|k,v| [attrs[k],v]}]
+            permitted_hash.delete(nil)
+            permitted_hash
+          end
+        end
+      end
+
+      def set_settings(*attrs)
+        (class << self; self; end).instance_eval do
+          define_method(:settings) { attrs }
         end
       end
 
       def scope(name, proc)
         (class << self; self; end).instance_eval do
           define_method(name, &proc)
-        end
-      end
-
-      def set_settings(*attrs)
-        attrs = attrs.flatten
-        (class << self; self; end).instance_eval do
-          define_method(:settings) { attrs.map { |attr| attr[:name] } }
-          define_method(:settings_with_types) { attrs }
         end
       end
     end

@@ -6,6 +6,7 @@ module ApplicationHelper
 
   def common_time(time, options = {})
     return time.strftime('%l:%M %p') if options[:daily]
+    return time.strftime('%a %l:%M %p') if options[:daily_with_dow]
     return time.strftime('%B %l:%M %p') if options[:weekly]
     time.strftime("%B #{time.day.ordinalize}, %Y at %l:%M %p")
   end

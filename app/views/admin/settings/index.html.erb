@@ -7,6 +7,11 @@
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane fade in active" id="slack-settings">
+        <div class="actions">
+          <%= link_to update_messages_admin_settings_path, class: 'btn btn-default', method: :patch, data: { disable_with: 'Loading...' } do %>
+            Update Messages <i class="fa fa-bolt"></i>
+          <% end %>
+        </div>
         <% @slack_models.each do |model_class| %>
           <div class="panel panel-default">
             <div class="panel-heading"><%= model_class.display_name %></div>

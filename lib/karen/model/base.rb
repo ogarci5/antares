@@ -1,4 +1,4 @@
-class Karen::Model::Base
+class Karen::Model::Base < Ohm::Model
   include Karen::Model
 
   class << self
@@ -10,56 +10,36 @@ class Karen::Model::Base
       to_s.tableize.split('/').last
     end
 
-    def redis_key
-      "#{base_module}:#{base_class}"
-    end
-
     def display_name
       base_class.titleize
     end
 
-    def all
-      (Karen::Redis.get(redis_key) || []).map { |model_hash| new model_hash }
+    def permitted_attributes(hash)
+      {}
     end
 
-    def first
-      all.first
+    def find(dict)
+      if dict.is_a? Hash
+        super dict
+      else
+        self.[](dict)
+      end
     end
 
-    def where(attr = {})
-      field, value = attr.keys.first, attr.values.first
-      all.select { |model| model.send(field) == value }
-    end
-
-    def find(id)
-      where(id: id).first
+    def settings
+      []
     end
   end
 
   def initialize(attrs = {})
-    attrs.each do |var, value|
-      instance_variable_set("@#{var}", value)
-    end
-  end
-
-  def save
-    format_types!
-    data = Karen::Redis.get(self.class.redis_key)
-    data.map! { |model| model['id'] == id ? self : model }
-    Karen::Redis.set(self.class.redis_key, data)
+    super self.class.permitted_attributes(attrs)
   end
 
   def model_name
     self.class.base_class.singularize
   end
 
-  private
-
-  def format_types!
-    self.class.settings_with_types.each do |setting|
-      if setting[:type] == :boolean
-        self.send "#{setting[:name]}=", [true, 'true', 'on'].include?(self.send(setting[:name]))
-      end
-    end
+  def reference_id
+    "#{model_name.to_sym}_id".to_sym
   end
 end

@@ -12,6 +12,8 @@ class Task < ActiveRecord::Base
 
   after_commit :update_cache
 
+  PRIORITY_MAPPING = {low: 0..30, medium: 31..70, high: 71..100, very_high: 100..999}
+
   def self.this_week
     if Time.zone.now.sunday?
       where(due_date: Chronic.parse('today at 0:00')..Chronic.parse('next saturday at 23:59')).reorder('due_date ASC')
@@ -54,6 +56,12 @@ class Task < ActiveRecord::Base
         Chronic.parse("next month at #{now.strftime('%H:%M%P')}", now: now)
     end
   end
+
+  def priority_label
+    PRIORITY_MAPPING.select {|_, range| range.include?(priority)}.keys.first
+  end
+
+
 
   private
   def update_cache
