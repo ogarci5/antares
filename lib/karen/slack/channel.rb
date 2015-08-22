@@ -21,4 +21,8 @@ class Karen::Slack::Channel < Karen::Model::Base
   def to_s
     name.titleize
   end
+
+  def display_name
+    name.humanize.downcase
+  end
 end

@@ -29,4 +29,8 @@ class Karen::Slack::Im < Karen::Model::Base
   def name
     to_s
   end
+
+  def display_name
+    to_s
+  end
 end

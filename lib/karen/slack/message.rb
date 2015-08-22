@@ -12,58 +12,46 @@ module Karen
 
       class << self
         def update_all
-          update_channels
-          update_ims
+          update_all_from_models(Karen::Slack::Channel, Karen::Slack::Im)
         end
         
-        def update_channels
-          Karen::Slack::Channel.display.to_a.each do |channel|
-            messages = Karen::Slack::API.call(channel.method, {channel: channel.id, count: 20}).try(:[], 'messages') || []
+        def update_all_from_models(*models)
+          models.each do |model|
+            model.display.to_a.each do |channel|
+              messages = Karen::Slack::API.messages(channel: channel)
 
-            if messages.first.try(:[], 'ts') != channel.messages.to_a.last.try(:ts)
-              messages.each do |message|
-                next if self[[channel.id, message['ts']].join('_')]
-
-                Karen::Slack::SlackUser.all.to_a.each do |user|
-                  message['text'] = message['text'].try(:gsub, user.id, user.name)
+              if messages.first.try(:[], 'ts') != channel.messages.sort_by(:ts).to_a.last.try(:ts)
+                messages.each do |message|
+                  id = get_id(channel_id: channel.id, ts: message['ts'])
+                  next if self[id]
+                  message['text'] = format_raw_text(message['text'])
+                  create({
+                    :id => id,
+                    :ts => message['ts'].to_f,
+                    channel.reference_id => channel.id,
+                    :user_id => message['user'],
+                    :text => message['text']
+                  })
                 end
 
-                msg = new id: [channel.id, message['ts']].join('_')
-                msg.ts = message['ts'].to_f
-                msg.channel_id = channel.id
-                msg.user_id = message['user']
-                msg.text = message['text']
-                msg.save
+                Karen::Notification::Message.generate(type: base_module, text: channel.display_name).deliver if channel.notify
               end
-
-              Karen::Message.new(type: 'karen/slack', text: channel.name.humanize.downcase).deliver if channel.notify
             end
           end
         end
-        
-        def update_ims
-          Karen::Slack::Im.display.to_a.each do |im|
-            messages = Karen::Slack::API.call(im.method, {channel: im.id, count: 20}).try(:[], 'messages') || []
 
-            if messages.first.try(:[], 'ts') != im.messages.to_a.last.try(:ts)
-              messages.each do |message|
-                next if self[[im.id, message['ts']].join('_')]
+        private
 
-                Karen::Slack::SlackUser.all.to_a.each do |user|
-                  message['text'] = message['text'].try(:gsub, user.id, user.name)
-                end
+        def get_id(channel_id:, ts:)
+          [channel_id, ts].join('_')
+        end
 
-                msg = new id: [im.id, message['ts']].join('_')
-                msg.ts = message['ts'].to_f
-                msg.im_id = im.id
-                msg.user_id = message['user']
-                msg.text = message['text']
-                msg.save
-              end
-
-              Karen::Message.new(type: 'karen/slack', text: im.to_s).deliver if im.notify
-            end
+        # Replaces ids in slack messages with the user's name
+        def format_raw_text(text)
+          Karen::Slack::SlackUser.all.to_a.each do |user|
+            text = text.try(:gsub, user.id, user.name)
           end
+          text
         end
       end
 

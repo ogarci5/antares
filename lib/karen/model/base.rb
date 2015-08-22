@@ -18,14 +18,6 @@ class Karen::Model::Base < Ohm::Model
       {}
     end
 
-    def first
-      all.to_a.first
-    end
-
-    def last
-      all.to_a.last
-    end
-
     def find(dict)
       if dict.is_a? Hash
         super dict
@@ -45,5 +37,9 @@ class Karen::Model::Base < Ohm::Model
 
   def model_name
     self.class.base_class.singularize
+  end
+
+  def reference_id
+    "#{model_name.to_sym}_id".to_sym
   end
 end
