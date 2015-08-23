@@ -28,7 +28,7 @@
               <tbody>
               <% model_class.all.each do |model| %>
                 <tr>
-                  <td><%= link_to model.to_s, admin_setting_path(id: model.id, namespace: model_class.base_module, type: model_class.base_class) %></td>
+                  <td><%= link_to model.to_s, edit_admin_setting_path(id: model.id, namespace: model_class.base_module, type: model_class.base_class) %></td>
                   <% model_class.settings.each do |setting| %>
                     <td><%= model.send setting %></td>
                   <% end %>
@@ -56,7 +56,7 @@
               <tbody>
               <% model_class.all.each do |model| %>
                 <tr>
-                  <td><%= link_to model.to_s, admin_setting_path(id: model.id, namespace: model_class.base_module, type: model_class.base_class) %></td>
+                  <td><%= link_to model.to_s, edit_admin_setting_path(id: model.id, namespace: model_class.base_module, type: model_class.base_class) %></td>
                   <% model_class.settings.each do |setting| %>
                     <td><%= model.send setting %></td>
                   <% end %>

@@ -6,7 +6,7 @@ class Admin::SettingsController < ApplicationController
     @notification_models = Karen::Notification.models
   end
 
-  def show
+  def edit
   end
 
   def update
