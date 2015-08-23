@@ -3,6 +3,7 @@ class Admin::SettingsController < ApplicationController
 
   def index
     @slack_models = Karen::Slack.models
+    @notification_models = Karen::Notification.models
   end
 
   def show

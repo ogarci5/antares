@@ -2,6 +2,8 @@ module Karen
   module Slack
     # Loading scheme, can either be from file or from an API source.
     def self.load!
+      # Check if we've been loaded
+      return if SlackUser.all.to_a.first
       API.slack_users.each { |user| SlackUser.create(user) }
       # Creates Slackbot
       SlackUser.create id: 'USLACKBOT', name: 'slackbot', real_name: 'slackbot'

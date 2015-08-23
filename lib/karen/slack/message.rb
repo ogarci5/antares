@@ -4,7 +4,7 @@ module Karen
       attr_accessible id: :id, channel_id: :channel_id, im_id: :im_id, user_id: :user_id, text: :text, ts: :ts
 
       attribute :text
-      attribute :ts
+      attribute :ts, ->(time) { time.to_f.round(6) }
 
       reference :channel, 'Karen::Slack::Channel'
       reference :im, 'Karen::Slack::Im'
@@ -20,14 +20,14 @@ module Karen
             model.display.to_a.each do |channel|
               messages = Karen::Slack::API.messages(channel: channel)
 
-              if messages.first.try(:[], 'ts') != channel.messages.sort_by(:ts).to_a.last.try(:ts)
+              if messages.first.try(:[], 'ts').to_f > channel.messages.sort_by(:ts).to_a.last.try(:ts).to_f
                 messages.each do |message|
                   id = get_id(channel_id: channel.id, ts: message['ts'])
                   next if self[id]
                   message['text'] = format_raw_text(message['text'])
                   create({
                     :id => id,
-                    :ts => message['ts'].to_f,
+                    :ts => message['ts'],
                     channel.reference_id => channel.id,
                     :user_id => message['user'],
                     :text => message['text']
