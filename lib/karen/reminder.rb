@@ -38,7 +38,7 @@ module Karen
     end
 
     def set
-      if self.unset? && @task.reminded_at != remind_time
+      if unset? && @task.reminded_at != remind_time
         destroy_workers
         Resque.enqueue_at(remind_time, ReminderWorker, @task_id, @task.updated_at.to_i)
         @task.reminded_at = remind_time
@@ -52,8 +52,8 @@ module Karen
         (@task.due_date - REMINDER_TIME_DEFAULTS[@period])
     end
 
-    def send
-      Karen::Message.new(type: self.class.to_s.underscore, text: @message).deliver
+    def deliver
+      Karen::Notification::Message.generate(type: self.class.to_s.downcase, text: @message).deliver
       puts 'Reminder for Task %s has been sent' % @task_id
     end
   end

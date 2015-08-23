@@ -3,6 +3,8 @@ class Karen::Notification::Message < Karen::Model::Base
   attr_accessible id: :id, body: :body, type: :type, order: :order
   attr_accessor :text
 
+  set_settings :body, :type, :order
+
   attribute :body
   attribute :type
   attribute :order, ->(order){ eval order.to_s }
@@ -24,8 +26,12 @@ class Karen::Notification::Message < Karen::Model::Base
     message
   end
 
+  def to_s
+    "Message #{id}"
+  end
+
   def user
-    Karen.user
+    Karen.user || User.admin
   end
 
   def name

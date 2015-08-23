@@ -25,6 +25,7 @@ Rails.application.routes.draw do
         patch 'update_messages'
       end
     end
+    resources :messages, only: [:new, :create]
   end
 
   root 'dashboard#index'

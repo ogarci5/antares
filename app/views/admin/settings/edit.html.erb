@@ -3,9 +3,10 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <% @model.class.settings.each do |setting| %>
-        <%= form.text_field setting, value: @model.send(setting) %>
+        <%= form.text_field setting, value: @model.send(setting).to_s.freeze %>
       <% end %>
     </div>
   </div>
+  <%= link_to 'Back', admin_settings_path, class: 'btn btn-default' %>
   <%= form.submit 'Update', class: 'btn btn-default' %>
 <% end %>

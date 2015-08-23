@@ -3,6 +3,6 @@ class ReminderWorker
 
   def self.perform(task_id, updated)
     Karen.initialize!
-    Karen::Reminder.new(task_id).send
+    Karen::Reminder.new(task_id).deliver
   end
 end
