@@ -4,7 +4,7 @@ class Karen::Message
   def initialize(attrs = {})
     attrs = attrs.with_indifferent_access
     @recipient = attrs[:recipient]
-    @body = attrs[:body]
+    @body = attrs[:body] || attrs[:text]
   end
 
   def deliver
