@@ -87,3 +87,35 @@
     <% end %>
   </div>
 </div>
+
+<h3>Runescape</h3>
+<div role="tabpanel" class="row">
+  <div class="col-md-3">
+    <ul id="slack-channels-nav" class="nav nav-pills nav-stacked" role="tablist">
+      <% @slack_channels.each_with_index do |channel, i| %>
+        <li role="presentation" class="<%= 'active' if i == 0 %>"><a href="#<%=channel.name.parameterize%>" aria-controls="home" role="pill" data-toggle="pill"><%=channel.name.parameterize.titleize%></a></li>
+      <% end %>
+    </ul>
+  </div>
+  <div id="slack-channels" class="tab-content">
+    <% @slack_channels.each_with_index do |channel, i| %>
+      <div role="tabpanel" class="tab-pane fade <%= 'in active' if i == 0 %>" id="<%=channel.name.parameterize%>">
+        <div class="col-md-9">
+          <div class="panel panel-default">
+            <div class="panel-heading"><%=channel.name.parameterize.titleize%></div>
+            <div class="panel-body">
+              <% if channel.messages.present? %>
+                <% channel.messages.sort_by(:ts).each do |message| %>
+                  <p><strong><%=message.user%></strong> <span class="text-muted"><%=common_time(message.time, daily_with_dow: true)%></span></p>
+                  <p><%=message.text%></p>
+                <% end %>
+              <% else %>
+                <p>No new messages for today.</p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

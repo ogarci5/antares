@@ -4,6 +4,8 @@ class DashboardController < ApplicationController
     @todays_tasks = Task.today.not_completed
     @this_weeks_tasks = Task.this_week
     @slack_channels = Karen::Slack::Channel.display.to_a + Karen::Slack::Im.display.to_a
+
+    @runescape_categories = Karen::Runescape::Category.all
   end
 
   def anime

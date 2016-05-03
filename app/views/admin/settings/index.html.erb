@@ -4,6 +4,7 @@
     <ul id="admin-settings-nav" class="nav nav-pills" role="tablist">
       <li role="presentation" class="active"><a href="#slack-settings" aria-controls="slack" role="pill" data-toggle="pill">Slack</a></li>
       <li role="presentation"><a href="#notification-settings" aria-controls="notification" role="pill" data-toggle="pill">Notification</a></li>
+      <li role="presentation"><a href="#runescape-settings" aria-controls="runescape" role="pill" data-toggle="pill">Runescape</a></li>
       <li role="presentation"><a href="#secret-settings" aria-controls="secret" role="pill" data-toggle="pill">Secret</a></li>
     </ul>
     <div class="tab-content">
@@ -50,7 +51,6 @@
                 <% model_class.settings.each do |setting| %>
                   <th><%= setting.to_s.titleize %></th>
                 <% end %>
-                <th>Actions</th>
               </tr>
               </thead>
               <tbody>
@@ -60,12 +60,52 @@
                   <% model_class.settings.each do |setting| %>
                     <td><%= model.send setting %></td>
                   <% end %>
-                  <td></td>
                 </tr>
               <% end %>
               </tbody>
             </table>
           </div>
+        <% end %>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="runescape-settings">
+        <% @runescape_models.each do |model_class| %>
+          <div class="panel panel-default">
+            <div class="panel-heading"><%= model_class.display_name %></div>
+            <% if model_class.all.to_a.first %>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <% model_class.settings.each do |setting| %>
+                      <th><%= setting.to_s.titleize %></th>
+                    <% end %>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% model_class.all.each do |model| %>
+                    <tr>
+                      <td><%= link_to model.to_s, edit_admin_setting_path(id: model.id, namespace: model_class.base_module, type: model_class.base_class) %></td>
+                      <% model_class.settings.each do |setting| %>
+                        <td><%= model.send setting %></td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% else %>
+              <div class="panel-body">
+                <p><strong>No settings found.</strong></p>
+              </div>
+            <% end %>
+          </div>
+          <% if model_class.display_name == 'Items' %>
+            <div class="actions">
+              <%= link_to new_admin_setting_path(namespace: model_class.base_module, type: model_class.base_class), class: 'btn btn-default' do %>
+                Add Item <i class="fa fa-plus"></i>
+              <% end %>
+            </div>
+            <br>
+          <% end %>
         <% end %>
       </div>
       <div role="tabpanel" class="tab-pane fade" id="secret-settings">
