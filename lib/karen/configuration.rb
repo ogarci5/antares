@@ -1,6 +1,6 @@
 module Karen
   class Configuration
-    OPTIONS = [:user, :redis, :settings]
+    OPTIONS = [:user, :redis, :services]
 
     # Configuration option getters and setters
     class << self

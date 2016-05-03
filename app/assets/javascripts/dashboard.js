@@ -19,4 +19,6 @@ $(function() {
     }});
   });
 
+  $('.quickflip-wrapper').quickFlip();
+
 });

@@ -20,7 +20,12 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :settings
+    resources :settings do
+      collection do
+        patch 'update_messages'
+      end
+    end
+    resources :messages, only: [:new, :create]
   end
 
   root 'dashboard#index'

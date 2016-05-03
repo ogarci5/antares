@@ -1,0 +1,11 @@
+<h2>Send a Message from Karen</h2>
+<%= bootstrap_form_for :message, url: admin_messages_path do |form| %>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <%= form.text_field :recipient %>
+      <%= form.text_area :body %>
+    </div>
+  </div>
+  <%= link_to 'Back', root_path, class: 'btn btn-default' %>
+  <%= form.submit 'Create', class: 'btn btn-default' %>
+<% end %>
