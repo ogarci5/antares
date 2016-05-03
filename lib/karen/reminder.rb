@@ -53,7 +53,7 @@ module Karen
     end
 
     def deliver
-      Karen::Notification::Message.generate(type: self.class.to_s.downcase, text: @message).deliver
+      Karen::Notification::Message.generate(type: 'reminder', text: @message).deliver
       puts 'Reminder for Task %s has been sent' % @task_id
     end
   end
