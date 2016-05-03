@@ -2,6 +2,8 @@
 # web: passenger start -p $PORT
 web: rails s -p $PORT
 
+redis: bin/perhaps_start_redis
+
 worker: rake resque:work VERBOSE=true
 delayed_worker: rake resque_delayed:work VERBOSE=true
 

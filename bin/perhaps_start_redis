@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if pgrep redis-server; then 
+  echo 'redis server already running' && cat
+else 
+  echo 'no redis server found, starting redis' && redis-server
+fi
