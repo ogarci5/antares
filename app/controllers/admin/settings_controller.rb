@@ -1,5 +1,5 @@
 class Admin::SettingsController < ApplicationController
-  before_action :set_model, only: [:show, :update]
+  before_action :set_model, except: [:index, :update_messages]
 
   def index
     @slack_models = Karen::Slack.models
