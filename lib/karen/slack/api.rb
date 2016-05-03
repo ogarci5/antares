@@ -2,18 +2,19 @@ module Karen
   module Slack
     class API
       BASE_URL = 'https://slack.com/api/'
-      BASE_QUERY = {token: ENV['SLACK_TOKEN']}
-
-      def self.call(api_method, query = {})
-        query = query.merge(BASE_QUERY)
-        call = RestClient.post(BASE_URL + api_method, query)
-        ActiveSupport::JSON.decode(call.body)
-      end
-
-      ##
-      # Resource methods
+      BASE_QUERY = { token: ENV['SLACK_TOKEN'] }
 
       class << self
+
+        ##
+        # Resource methods
+
+        def call(api_method, query = {})
+          query = query.merge(BASE_QUERY)
+          call = RestClient.post(BASE_URL + api_method, query)
+          ActiveSupport::JSON.decode(call.body)
+        end
+
         def resources(method:, query: {}, key:)
           Karen::Slack::API.call(method, query).fetch(key, [])
         end
@@ -33,6 +34,7 @@ module Karen
         def messages(channel:)
           resources(method: channel.method, query: {channel: channel.id, count: 20}, key: 'messages')
         end
+
       end
     end
   end
