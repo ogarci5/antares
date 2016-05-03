@@ -9,6 +9,8 @@ class Karen::Notification::Message < Karen::Model::Base
   attribute :type
   attribute :order, ->(order){ eval order.to_s }
 
+  unique :body
+
   index :type
 
   # Make sure we aren't too similar
