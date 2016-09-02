@@ -1,12 +1,32 @@
-<h2>Add Item</h2>
+<h2>New <%= @model.model_name.to_s.titleize %></h2>
 <%= bootstrap_form_for @model.model_name, url: admin_settings_path(namespace: @model.class.base_module, type: @model.class.base_class), method: :post do |form| %>
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <% @model.class.settings.each do |setting| %>
-        <%= form.text_field setting, value: @model.send(setting).to_s.freeze %>
-      <% end %>
+  <% if @model.class == Karen::Runescape::Item %>
+    <%= form.hidden_field :item_id %>
+    <h4>Categories</h4>
+    <%= form.select('category_id', Karen::Runescape::Category.all.collect{|c| [c.name, c.id]}, {include_blank: 'None'}, {data: params.slice(:namespace, :type)}) %>
+    <div class="form-group">
+      <label class="control-label" for="item_letter">Letter</label>
+      <select class="form-control" name="letter" id="item_letter"></select>
     </div>
-  </div>
+    <div class="panel panel-default">
+      <table id="items-table" class="table table-bordered">
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <a id="item-page-prev" class="btn btn-default disabled">Prev</a>
+    <a id="item-page-next" class="btn btn-default disabled">Next</a>
+
+    <hr>
+  <% else %>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <% @model.class.settings.each do |setting| %>
+          <%= form.text_field setting, value: @model.send(setting).to_s.freeze %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
   <%= link_to 'Back', admin_settings_path, class: 'btn btn-default' %>
-  <%= form.submit 'Update', class: 'btn btn-default' %>
+  <%= form.submit 'Create', class: 'btn btn-default' %>
 <% end %>

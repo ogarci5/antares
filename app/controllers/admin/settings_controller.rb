@@ -1,5 +1,5 @@
 class Admin::SettingsController < ApplicationController
-  before_action :set_model, only: [:edit, :update]
+  before_action :set_model, only: [:show, :edit, :update]
 
   def index
     @slack_models = Karen::Slack.models
@@ -12,6 +12,29 @@ class Admin::SettingsController < ApplicationController
   end
 
   def create
+    @model = "karen/#{params[:namespace]}/#{params[:type]}".classify.constantize.new
+
+    params[@model.model_name].each do |key, value|
+      @model.send :"#{key}=", value
+    end
+
+    if @model.save
+      redirect_to admin_settings_path, flash: { success: 'Model successfully created.' }
+    else
+      render :new
+    end
+  end
+
+  def show
+    respond_to do |format|
+      if params[:info] == 'true'
+        format.json { render json: @model.info }
+      elsif params[:info_items] == 'true'
+        format.json { render json: @model.info_items(params['letter'], params['page']) }
+      else
+        format.json { render json: @model }
+      end
+    end
   end
 
   def edit
@@ -25,7 +48,7 @@ class Admin::SettingsController < ApplicationController
     if @model.save
       redirect_to admin_settings_path, flash: { success: 'Model successfully updated.' }
     else
-      render :show
+      render :edit
     end
   end
 

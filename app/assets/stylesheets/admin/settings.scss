@@ -4,3 +4,17 @@
 #slack-settings .actions {
   padding: 15px 0;
 }
+
+#items-table .item {
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d9edf7
+  }
+  td:first-child {
+    width: 32px;
+  }
+  td {
+    line-height: 32px;
+  }
+}

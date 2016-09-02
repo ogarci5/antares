@@ -15,8 +15,8 @@ module Karen
         API.category(id)
       end
 
-      def info_items(letter)
-        API.items(id, letter)
+      def info_items(letter, page = 1)
+        API.items(id, letter, page)
       end
     end
   end
