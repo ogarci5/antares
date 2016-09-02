@@ -47,9 +47,11 @@ module Karen
     end
 
     def remind_time
-      @task.past_due? ?
-        (@task.due_date + REMINDER_TIME_DEFAULTS[:past_due][@period]) :
-        (@task.due_date - REMINDER_TIME_DEFAULTS[@period])
+      if @task.past_due?
+        @task.due_date + REMINDER_TIME_DEFAULTS[:past_due][@period]
+      else
+        @task.due_date - REMINDER_TIME_DEFAULTS[@period])
+      end
     end
 
     def deliver
