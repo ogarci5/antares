@@ -50,7 +50,7 @@ module Karen
       if @task.past_due?
         @task.due_date + REMINDER_TIME_DEFAULTS[:past_due][@period]
       else
-        @task.due_date - REMINDER_TIME_DEFAULTS[@period])
+        @task.due_date - REMINDER_TIME_DEFAULTS[@period]
       end
     end
 
