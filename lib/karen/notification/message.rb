@@ -16,7 +16,7 @@ class Karen::Notification::Message < Karen::Model::Base
   # Make sure we aren't too similar
   def self.sample_from_type(type)
     message = find(type: type).to_a.sample
-    while message.body.levenshtein_similar(Rails.cache.read('previous_message') || '') < 0.6 do
+    while message.body.levenshtein_similar(Rails.cache.read('previous_message') || '') > 0.6 do
       message = find(type: type).to_a.sample
     end
     message
@@ -41,6 +41,7 @@ class Karen::Notification::Message < Karen::Model::Base
   end
 
   def deliver
+    Rails.cache.write('previous_message', body)
     TwilioApi.new(serialize).deliver
   end
 
@@ -49,7 +50,6 @@ class Karen::Notification::Message < Karen::Model::Base
   end
 
   def parsed_body
-    Rails.cache.write('previous_message', body)
     (body % order.map{|o| self.send(o)}) + Karen::Notification::Signature.sample_from_order(order).text
   end
 end
