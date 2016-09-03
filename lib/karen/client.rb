@@ -33,7 +33,7 @@ module Karen
         # If we're at the max timeout, reset
         (min_timeout * iterations == max_timeout) ? iterations = 0 : iterations += 1
 
-	puts "sleeping for #{min_timeout}, iteration: #{iterations}"
+	      puts "sleeping for #{min_timeout}, iteration: #{iterations}"
         sleep min_timeout
       end
     end
