@@ -16,9 +16,14 @@ class Karen::Notification::Message < Karen::Model::Base
   # Make sure we aren't too similar
   def self.sample_from_type(type)
     message = find(type: type).to_a.sample
-    while message.body.levenshtein_similar(Rails.cache.read('previous_message') || '') > 0.6 do
+    previous_message = Rails.cache.read('previous_message') || ''
+    iterations = 0
+
+    while message.body.levenshtein_similar(previous_message) > 0.6 && iterations < 10 do
       message = find(type: type).to_a.sample
+      iterations += 1
     end
+
     message
   end
 
